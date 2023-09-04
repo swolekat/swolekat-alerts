@@ -60,7 +60,6 @@ const processQueue = () => {
 const doRaidNotification = (event) => {
     isAlerting = true;
     raidNumber.innerText = event?.amount;
-    raidImage.src = event?.avatar
     raidName.innerText = event?.name;
     raidAlert.className = 'raid-alert alert animate';
     setTimeout(() => {
@@ -108,7 +107,6 @@ const onFollower = (event) => {
 const doSubscriberNotification = (event) => {
     isAlerting = true;
     subscriberNumber.innerText = event?.amount;
-    subscriberImage.src = event?.avatar
     subscriberName.innerText = event?.name;
     subscriberAlert.className = 'subscriber-alert alert animate';
     setTimeout(() => {
