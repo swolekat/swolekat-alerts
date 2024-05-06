@@ -1,3 +1,5 @@
+const BITS_TO_IGNORE = [300, 420, 500, 690];
+
 const followerAlert = document.getElementById('follower-alert');
 const followerName = document.getElementById('follower-name');
 
@@ -183,6 +185,9 @@ const onSubscriber = (event) => {
 };
 
 const doCheerNotification = (event) => {
+    if(BITS_TO_IGNORE.includes(event?.amount)){
+        return;
+    }
     isAlerting = true;
     cheerName.innerText = event?.name;
     cheerNumber.innerText = event?.amount;
