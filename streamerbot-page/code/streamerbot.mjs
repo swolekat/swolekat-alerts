@@ -10,7 +10,9 @@ export function initializeConnections() {
     socket = new WebSocket(WEBSOCKET_URL);
 
     socket.onopen = () => {
-        let subscribeEvents = {};
+        let subscribeEvents = {
+            General: ['Custom']
+        };
         subscribeEvents['Twitch'] = [
             "Follow",
             "Cheer",
@@ -60,7 +62,7 @@ export function initializeConnections() {
             console.warn(['Event source not implemented', event]);
             return;
         }
-        if (wsdata.event.source !== 'Twitch' && wsdata.event.source !== 'YouTube') {
+        if (!['Twitch', 'YouTube', 'General'].includes(wsdata.event.source)) {
             return;
         }
         if (wsdata.event.source === 'Twitch') {
@@ -154,6 +156,20 @@ export function initializeConnections() {
 
             console.warn(['Twitch Event not implemented', event]);
             return;
+        }
+        if (wsdata.event.source === 'General') {
+            if (wsdata.event.type === 'Custom') {
+                if(wsdata.data.event === 'sammiYoutubeNotification'){
+                    const {name} = wsdata.data;
+                    runQueue({
+                        type: 'youtubeSubscriber',
+                        data: {
+                            userName: name,
+                        }
+                    });
+                }
+
+            }
         }
         // everything beyond here should be youtube
         // if (wsdata.event.type === 'NewSponsor') {
