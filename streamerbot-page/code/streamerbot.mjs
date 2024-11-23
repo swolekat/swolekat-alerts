@@ -105,11 +105,11 @@ export function initializeConnections() {
                 return;
             }
             if (wsdata.event.type === 'Sub') {
-                const {userName} = wsdata.data;
+                const {user} = wsdata.data;
                 runQueue({
                     type: 'twitchSub',
                     data: {
-                        userName,
+                        userName: user.name,
                         amount: 1,
                     }
                 });
@@ -117,11 +117,11 @@ export function initializeConnections() {
                 return;
             }
             if (wsdata.event.type === 'ReSub') {
-                const {userName, cumulativeMonths} = wsdata.data;
+                const {user, cumulativeMonths} = wsdata.data;
                 runQueue({
                     type: 'twitchSub',
                     data: {
-                        userName,
+                        userName: user.name,
                         amount: cumulativeMonths,
                     }
                 });
@@ -129,24 +129,23 @@ export function initializeConnections() {
                 return;
             }
             if (wsdata.event.type === 'GiftSub') {
-                const {displayName, recipientDisplayName} = wsdata.data;
+                const {user, recipient} = wsdata.data;
                 runQueue({
                     type: 'twitchGiftSub',
                     data: {
-                        userName: recipientDisplayName,
-                        sender: displayName,
+                        userName: recipient.name,
+                        sender: user.name,
                     }
                 });
 
                 return;
             }
             if (wsdata.event.type === 'GiftBomb') {
-                const {displayName, gifts} = wsdata.data;
-                console.log(user_name);
+                const {user, gifts} = wsdata.data;
                 runQueue({
                     type: 'twitchGiftBomb',
                     data: {
-                        userName: displayName,
+                        userName: user.name,
                         amount: gifts,
                     }
                 });
